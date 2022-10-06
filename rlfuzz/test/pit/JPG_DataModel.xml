@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Peach xmlns="http://peachfuzzer.com/2012/Peach"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://peachfuzzer.com/2012/Peach peach.xsd"  
+       author="Peach Fuzzer, LLC"
+ description="Jpg PIT States" version="1.0">
+	
+	<!--Data Template-->
+	<DataModel name="Template">
+	    <Number name="size_of_block" size="16" signed="false" endian="big">
+		    <Relation type="size" of="Template"/>
+		</Number>
+		<Block name="Data">
+			<Blob name="Template_Data" />
+		</Block>
+	</DataModel>
+	
+	<!--Start of Image-->
+	<DataModel name="SOI">
+		<Blob name="SOI_Head" length="2" valueType="hex" value="FF D8" token="true"/>
+	</DataModel>
+
+	
+	<!--Application 0-->
+	<DataModel name="APP0">
+	    <Blob name="APP0_Head" length="2" valueType="hex" value="FF E0" token="true"/>
+		<Block name="APP0_Data" ref="Template">
+		    <Block name="Data">
+		        <String value="JFIF" nullTerminated="true" token="true"/>
+			    <Number name="major_version_number" size="8"/>
+			    <Number name="minor_version_number" size="8"/>
+			    <Choice name="pixel_units" length="1">
+			        <Blob name="null" length="1" valueType="hex" value="00" />
+				    <Blob name="inch" length="1" valueType="hex" value="01" />
+				    <Blob name="cm" length="1" valueType="hex" value="02" />
+			    </Choice>
+			    <Number name="X_density" size="16" signed="false" endian="big"/>
+			    <Number name="Y_density" size="16" signed="false" endian="big"/>
+			    <Number name="X_thumbnail" size="8" signed="false" endian="big"/>
+			    <Number name="Y_thumbnail" size="8" signed="false" endian="big"/>
+			    <!--may be wrong-->
+			    <!--<Blob name="RGB"  lengthType="calc" lengthCalc="int(self.find('X_thumbnail').getInternalValue())*3"/>-->
+
+			</Block>
+		</Block>
+	</DataModel>
+
+	
+	<DataModel name="APP1">
+	    <Blob name="APP1_Head" length="2" valueType="hex" value="FF E1" token="true"/>
+		<Block name="APPX_Data" ref="Template"/>
+	</DataModel>
+	<DataModel name="APP2">
+	    <Blob name="APP2_Head" length="2" valueType="hex" value="FF E2" token="true"/>
+		<Block name="APPX_Data" ref="Template"/>
+	</DataModel>
+	<DataModel name="APP12">
+	    <Blob name="APP12_Head" length="2" valueType="hex" value="FF EC" token="true"/>
+		<Block name="APPX_Data" ref="Template"/>
+	</DataModel>
+	<DataModel name="APP13">
+	    <Blob name="APP13_Head" length="2" valueType="hex" value="FF ED" token="true"/>
+		<Block name="APPX_Data" ref="Template"/>
+	</DataModel>
+	<DataModel name="APP14">
+	    <Blob name="APP14_Head" length="2" valueType="hex" value="FF EE" token="true"/>
+		<Block name="APPX_Data" ref="Template"/>
+	</DataModel>
+
+	<DataModel name="DRI">
+	    <Blob name="DRI_Head" length="2" valueType="hex" value="FF DD" token="true"/>
+		<Block name="DRI_Data" ref="Template"/>
+	</DataModel>
+	
+	<!--Define Quantization Table-->
+	<DataModel name="DQT">
+	    <Blob name="DQT_Head" length="2" valueType="hex" value="FF DB" token="true"/>
+		<Block name="DQT_Data" ref="Template">
+		    <Block name="Data">
+			<!--Quantization Table-->
+			    <Block name="QT" maxOccurs="4">
+				    <Flags name="QT_option" size="8">
+					    <!--may be wrong-->
+					    <Flag name="Tq" position="0" size="4"/>
+						<Flag name="Pq" position="4" size="1"/>
+						    <!--Relation type="size" of="table_item" expressionGet="(size+1)*64" expressionSet="(size/64)-1"/-->
+					</Flags>
+					<Choice name="table_item">
+						<Blob name="table_item_64" length="64"/>
+						<Blob name="table_item_128" length="128"/>
+					</Choice>
+				</Block>
+			</Block>
+		</Block>
+	</DataModel>
+	
+	<!--Start of Frame 0-->
+	<DataModel name="SOF0" >
+	    <Blob name="SOF0_Head" length="2" valueType="hex" value="FF C0" token="true"/>
+		<Block name="SOF0_Data" ref="Template">
+		    <Block name="Data">
+			    <Choice name="precision">
+				    <Number name="eight" value="8" size="8" />
+					<Number name="twelve" value="12" size="8" />
+					<Number name="sixteen" value="16" size="8" />
+				</Choice>
+				<Number name="Y_image" size="16"  signed="false" endian="big" />
+				<Number name="X_image" size="16"  signed="false" endian="big" />
+				<Number name="component" size="8" signed="false" value="3" token="true">
+				    <Relation type="count" of="COMPS" />
+				</Number>
+				<Block name="COMPS"  maxOccurs="3">
+				    <Number name="COMPS_id" size="8" signed="false"/>
+					<Flags name="sampling" size="8">
+					    <Flag name="X_sampling" position="0" size="4"/>
+						<Flag name="Y_sampling" position="4" size="4"/>
+					</Flags>
+					<Number name="QT_id" size="8" signed="false"/>
+				</Block>
+			</Block>
+		</Block>
+	</DataModel>
+	
+
+	<DataModel name="SOF2" >
+	    <Blob name="SOF2_Head" length="2" valueType="hex" value="FF C2" token="true"/>
+		<Block name="SOF2_Data" ref="Template"/>
+	</DataModel>
+
+	<DataModel name="SOF4" >
+	    <Blob name="SOF4_Head" length="2" valueType="hex" value="FF C4" token="true"/>
+		<Block name="SOF4_Data" ref="Template"/>
+	</DataModel>
+
+	<!--Define Huffman Table-->
+	<DataModel name="DHT">
+	    <Blob name="DHT_Head" length="2" valueType="hex" value="FF C4" token="true"/>
+		<Block name="DHT_Data" ref="Template">
+		    <Block name="Data">
+			    <Flags name="HT_Info" size="8">
+					    <Flag name="HT_Id" position="0" size="4"/>
+						<Flag name="DC_AC" position="4" size="1"/>
+				</Flags>
+			
+	     	    <Blob name="HT_Len" length="16" />
+                <Blob name="HT_Value" />
+			</Block>
+		</Block>
+	</DataModel>
+	<!--Start of Scan-->
+	<DataModel name="SOS">
+	    <Blob name="SOS_Head" length="2" valueType="hex" value="FF DA" token="true"/>
+		<Block name="SOS_Data" ref="Template">
+		    <Block name="Data">
+			    <Number name="nr_comp" value="3" size="8" >
+				    <Relation type="count" of="COMPSOS"/>
+				</Number>
+				<Block name="COMPSOS" maxOccurs="4">
+				    <Number name="comp_id" size="8"/>
+                    <Flags name="options" size="8">
+                        <Flag name="DC_id" position="0" size="4" />
+                        <Flag name="AD_id" position="4" size="4" />
+                    </Flags>
+				</Block>
+				<Blob name="img_data" length="3"/>
+			</Block>
+		</Block>
+	</DataModel>
+	
+	<!--End of Image-->
+	<DataModel name="EOI">
+		<Blob name="EOI_Head" length="2" valueType="hex" value="FF D9" token="true"/>
+	</DataModel>
+	
+	<DataModel name="JPGData">
+		    <Block name="SOI_DataModel" ref="SOI"   minOccurs="1"/>
+
+		    <Block name="APP0_DataModel" ref="APP0" minOccurs="0" maxOccurs="1"/>
+		    <Block name="APP1_DataModel" ref="APP1" minOccurs="0" maxOccurs="1"/>
+		    <Block name="APP2_DataModel" ref="APP2" minOccurs="0" maxOccurs="1"/>
+		    <Block name="APP12_DataModel" ref="APP12" minOccurs="0" maxOccurs="1"/>
+		    <Block name="APP13_DataModel" ref="APP13" minOccurs="0" maxOccurs="1"/>
+		    <Block name="APP22_DataModel" ref="APP2" minOccurs="0" maxOccurs="1"/>
+		    <Block name="APP14_DataModel" ref="APP14" minOccurs="0" maxOccurs="1"/>
+
+		    <Blob name="Some_DATA"/>
+
+		    <Block name="DQT_DataModel" ref="DQT"   minOccurs="1"/>
+
+		    <Block name="SOF0_DataModel" ref="SOF0" minOccurs="0" maxOccurs="1"/>
+		    <Block name="SOF2_DataModel" ref="SOF2" minOccurs="0" maxOccurs="1"/>
+		    <Block name="SOF4_DataModel" ref="SOF4" minOccurs="0" maxOccurs="1"/>
+
+		    <Block name="DRI0_DataModel" ref="DRI" minOccurs="0" maxOccurs="1" />
+
+		    <Block name="DHT_DataModel" ref="DHT"  minOccurs="0" />
+
+		    <Block name="DRI1_DataModel" ref="DRI" minOccurs="0" maxOccurs="1" />
+
+		    <Block name="SOS_DataModel" ref="SOS"   minOccurs="1"/>
+			<Blob name="Scan_DATA" />
+			<Block name="EOI_DataModel" ref="EOI"  minOccurs="0" maxOccurs="1"/>
+	</DataModel>
+</Peach>
+<!--END-->

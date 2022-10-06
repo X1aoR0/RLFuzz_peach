@@ -1,0 +1,30 @@
+start_time        : 1653136773
+last_update       : 1653144708
+fuzzer_pid        : 1095105
+cycles_done       : 0
+execs_done        : 1463788
+execs_per_sec     : 182.95
+paths_total       : 460
+paths_favored     : 2
+paths_found       : 458
+paths_imported    : 0
+max_depth         : 2
+cur_path          : 0
+pending_favs      : 2
+pending_total     : 460
+variable_paths    : 1
+stability         : 99.89%
+bitmap_cvg        : 1.40%
+unique_crashes    : 0
+unique_hangs      : 0
+last_path         : 1653144492
+last_crash        : 0
+last_hang         : 0
+execs_since_crash : 1463788
+exec_timeout      : 40
+afl_banner        : libjpeg-turbo-07-2017-afl
+afl_version       : 2.57b
+target_mode       : persistent deferred 
+command_line      : ./afl-fuzz -i /home/real/Rlfuzz-peach/rlfuzz/mods/fuzzer-test-suite-mod/libjpeg-turbo-07-2017/seeds/ -o /home/real/Rlfuzz-peach/data/libjpeg-out -m none /home/real/Rlfuzz-peach/rlfuzz/mods/fuzzer-test-suite-mod/programs/libjpeg-turbo-07-2017-afl @@
+slowest_exec_ms   : 18
+peak_rss_mb       : 8
