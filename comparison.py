@@ -160,7 +160,7 @@ if __name__ == "__main__":
                     # 设置peach_seed和peach
                     env.set_peach_seed(SEED_PATH)
                     #这里设置peach
-                    env.set_peach()
+                    env.set_peach_new()
             else:
                 print('[!] {} not exist !'.format(SEED_PATH))
 

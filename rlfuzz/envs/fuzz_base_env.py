@@ -13,7 +13,7 @@ from rlfuzz.coverage import PATH_MAP_SIZE
 from rlfuzz.coverage import MAP_SIZE_SOCKET
 from rlfuzz.envs.fuzz_mutator import *
 from rlfuzz.envs.sample_analyse import *
-
+from ZZRFuzz.ZZRFuzz_crackseed import *
 
 class FuzzBaseEnv(gym.Env):
     def __init__(self, socket_flag=False):
@@ -25,7 +25,7 @@ class FuzzBaseEnv(gym.Env):
             self.engine = coverage.SocketComm(self.target_ip, self.target_port, self.comm_method)
         #
         else:
-            self.engine = coverage.Afl(self._target_path, args=self._args, suffix=self._suffix, set_out=self._set_out)
+            self.engine = coverage.Afl(self._target_path, args=self._args)
 
         self.beginTime = time.time()
         with open("fuzz_cov.txt","w+") as fp:
@@ -402,6 +402,49 @@ class FuzzBaseEnv(gym.Env):
         if self.PeachFlag:
             self.seed_block = copy.deepcopy(self.seed_block_list[self.seed_index])
             self.muteble_num = self.muteble_num_list[self.seed_index]
+
+    def set_peach_new(self):
+        self.PeachFlag = True
+        # 记录当前样本的格式约束解析结果 (位置，长度)  记录可变异的块的序号
+        # self.seed_block, self.muteble_num = Sample_dataCrack(self._dataModelName,
+        #                                                      self._Seed_Path,
+        #                                                      self._PitPath)
+        # 如果Seed_path是文件，就直接保存一个seed_block和mutable_num
+        if os.path.isfile(self._Seed_Path):
+            self.seed_block, self.muteble_num = seedCrack(self.engine,self._Seed_Path)
+        # 如果Seed_path是目录，就crack之后添加到list里面
+        elif os.path.isdir(self._Seed_Path):
+            self.seed_block_list = []
+            self.muteble_num_list = []
+            for each in self.seed_names:
+                if each.endswith(self._suffix):
+                    tmp_seed_block, tmp_muteble_num = seedCrack(self.engine,os.path.join(self._Seed_Path, each))
+                    self.seed_block_list.append(tmp_seed_block)
+                    self.muteble_num_list.append(tmp_muteble_num)
+            self.seed_block = copy.deepcopy(self.seed_block_list[self.seed_index])
+            self.muteble_num = self.muteble_num_list[self.seed_index]
+        self.mutate_num_history = []  # 记录每次选择的变异块
+        self.useful_sample_crack_info = {}
+        # 5. 加入格式约束
+        self.action_space = spaces.Dict({
+            'mutate': spaces.Discrete(self.mutate_size),
+            'loc': spaces.Tuple((
+                spaces.Discrete(16),
+                spaces.Discrete(16),
+                spaces.Discrete(16),
+                spaces.Discrete(16)
+            )),
+            'density': spaces.Tuple((
+                spaces.Discrete(16),
+                spaces.Discrete(16)
+            )),
+            'block_num': spaces.Tuple((
+                spaces.Discrete(16),
+                spaces.Discrete(16)
+            ))
+        })
+        self.reset()
+
 
     def set_peach(self):
         self.PeachFlag = True

@@ -205,7 +205,7 @@ class FuzzWhoEnv(FuzzBaseEnv):
 class FuzzgzipEnv(FuzzBaseEnv):
     def __init__(self):
         self._target_path = rlfuzz.gzip_target_path()
-        self._args = ['-d']
+        self._args = ['-d',"@@"]
         self._seed = [b'']  # 指定初始变异的文件
         self._suffix = '.gz'
         self._set_out = []
