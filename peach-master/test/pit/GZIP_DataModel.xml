@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://peachfuzzer.com/2012/Peach /peach/peach.xsd">
+
+	<!-- Create data model -->
+	<Defaults>
+		<Number signed="false" endian="little"/>
+	</Defaults>
+	
+	<DataModel name="gzip_file">
+	
+		<!-- GZip header information -->
+		<Block name="gzip_header">
+			
+			<!-- Magic bytes for the file -->
+			<Blob name="magic_bytes"  value="1F8B"  valueType="hex" token="true" mutable="false" />
+			
+			<!-- Compression method used by engine
+				This identifies the compression method used in the file.-->
+			<Choice name="comp_method">
+				<Block name="stored">		<Number name="stored_num" value="0" size="8" mutable="false"/>			</Block>
+				<Block name="compressed">	<Number name="compressed_num" value="1" size="8" mutable="false"/>		</Block>
+				<Block name="packed">		<Number name="packed_num" value="2" size="8" mutable="false"/>			</Block>
+				<Block name="lzhed">		<Number name="lzhed_num" value="3" size="8" mutable="false"/>			</Block>
+				<Block name="reserved4">	<Number name="reserved4_num" value="4" size="8" mutable="false"/>		</Block>
+				<Block name="reserved5">	<Number name="reserved5_num" value="5" size="8" mutable="false"/>		</Block>
+				<Block name="reserved6">	<Number name="reserved6_num" value="6" size="8" mutable="false" />		</Block>
+				<Block name="reserved7">	<Number name="reserved7_num" value="7" size="8" mutable="false"/>		</Block>
+				<!-- Default (and most common)  -->
+				<Block name="deflate">      <Number name="deflate_num" value="8" size="8" mutable="false"/>		</Block>
+			</Choice>
+
+			<Flags name="flags" size="8" endian="little">
+				<Flag name="ASCII_TEXT" size="1" position="0" />
+				<Flag name="CONTINUATION" size="1" position="1" value="0" token="true" />
+				<Flag name="EXTRA" size="1" position="2" />
+				<Flag name="NAME" size="1" position="3" />
+				<Flag name="COMMENT" size="1" position="4" />
+				<Flag name="RESERVED0" size="1" position="5" />
+				<Flag name="RESERVED1" size="1" position="6" />
+				<Flag name="RESERVED2" size="1" position="7" />
+			</Flags>
+			
+			<!-- Unix timestamp of the file modification time -->
+			<Number name="mod_time" size="32"    />
+			
+			<!-- Extra flags, dependant on compression method  -->
+			<Number name="extra_flags" size="8"   value="2"  />
+			
+			<!-- Operating system compression took place on -->
+			<Number name="opeating_system" size="8" />
+			
+			<Choice>
+				<Block constraint="int(element.find('flags.CONTINUATION').InternalValue) == 1" >
+					<Number name="continuation_1" size="16"  />
+				</Block>
+				<Block constraint="int(element.find('flags.CONTINUATION').InternalValue) == 0">
+					<Blob name="continuation_0" length="0"/>
+				</Block>
+			</Choice>
+
+			<Choice>
+				<Block  constraint="int(element.find('flags.EXTRA').InternalValue) == 1"  >
+					<Number name="extra_length_1" size="16"  >
+						<Relation type = "size" of = "extra_data" />
+					</Number>
+					<String name="extra_data" /> 
+				</Block>
+				<Block constraint="int(element.find('flags.EXTRA').InternalValue) == 0">
+					<Blob name="extra_length_0" length="0"  />
+				</Block>
+			</Choice>
+						
+			
+			<Choice>
+				<Block  constraint="int(element.find('flags.NAME').InternalValue) == 1"  >
+					<String name="file_name_1"  nullTerminated="true" />
+				</Block>
+				<Block  constraint="int(element.find('flags.NAME').InternalValue) == 0">
+					<Blob name="file_name_0" length="0"  />
+				</Block>
+			</Choice>
+			
+			<Choice>
+				<Block constraint="int(element.find('flags.COMMENT').InternalValue) == 1"  >
+					<String name="file_comment_1"  nullTerminated="true"  />
+				</Block>
+				<Block constraint="int(element.find('flags.COMMENT').InternalValue) == 0" >
+					<Blob name="file_comment_0" length="0" />
+				</Block>
+			</Choice>
+
+		</Block>
+
+		
+		<!-- set mutable="false": compressed data & CRC of the uncompressed data & size of the uncompressed data-->
+		<Block name="compressed_block" >
+			<Blob name="compressed_data"  />
+			
+			<Number name="raw_CRC32" size="32"/>
+			<!-- 4 bytes uncompressed input size modulo 2^32  Size of the uncompressed input-->
+			<Number name="uncompressed_size" size="32"  />
+		</Block>
+		
+	</DataModel>
+</Peach>
+
+			<!-- CRC of the compressed_data section	
+			
+
+			<Number name = "CRC32" size = "32" mutable="false" >
+				<Fixup class = "checksums.Crc32Fixup">
+					<Param name = "ref" value = "compressed_data" />
+				</Fixup>
+			</Number>
+			-->

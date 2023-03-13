@@ -114,13 +114,13 @@ def Sample_dataCrack(dataModelName, samplePath, PitPath):
     seed_block, mutate_block_num = AnalyseResult.Res_Parse(len(data))
     return seed_block, mutate_block_num
 
-
+project_dir = "/home/zzr/RLFuzz_peach"
 def NewSample_dataCrack(dataModelName, samplePath, PitPath):
     samplePath = re.sub(r'(&|\*|\?|\||;|~|#|\\)', r'\\\1', samplePath)
-    os.system('/home/real/Rlfuzz-peach/rlfuzz/changevenv.sh {} {} {}'.format(dataModelName, samplePath, PitPath))
-    if not os.path.exists('/home/real/Rlfuzz-peach/rlfuzz/datacrack_outcome.npy'):
+    os.system(project_dir+'/rlfuzz/changevenv.sh {} {} {}'.format(dataModelName, samplePath, PitPath))
+    if not os.path.exists(project_dir+'/rlfuzz/datacrack_outcome.npy'):
         raise FileExistsError("no model carck data file")
-    data_json = np.load('/home/real/Rlfuzz-peach/rlfuzz/datacrack_outcome.npy', allow_pickle=True)
+    data_json = np.load(project_dir+'/rlfuzz/datacrack_outcome.npy', allow_pickle=True)
     data = data_json.item()
     seed_block = data['seed_block']
     mutate_block_num = data['mutate_block_num']

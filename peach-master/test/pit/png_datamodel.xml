@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach author="tzh">
+	<DataModel name="IHDR">
+		  <Number size="32" name="datalength" signed="false" endian="big">
+				<Relation type="size" of="data"/>
+		  </Number>
+		  <String name="BolckFlag" length="4" value="IHDR" token="true"></String>
+		  <Block name="data">
+			  <Number size="32" name="Width" signed="false"></Number>
+			   <Number size="32" name="Height" signed="false"></Number>
+			   <Number size="8" name="Bitdepth" signed="false"></Number>
+			   <Number size="8" name="ColorType" signed="false"></Number>
+			   <Number size="8" name="Comdivssionmethod" signed="false"></Number>
+			   <Number size="8" name="Filtermethod" signed="false"></Number>
+			   <Number size="8" name="Interlacemethod" signed="false"></Number>
+		  </Block>
+		  <Number size="32" name="CRC" signed="false"></Number>
+	</DataModel>
+
+			<DataModel name="cHRM">
+				 <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="cHRM" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+			</DataModel>
+		     <DataModel name="gAMA">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="gAMA" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="iCCP">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="iCCP" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="sRGB">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="sRGB" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="sBIT">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="sBIT" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="bKGD">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="bKGD" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="hIST">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="hIST" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="tRNS">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="tRNS" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="pHYs">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="pHYs" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	   <Number size="32" name="physPixelPerUnitX" signed="false"></Number>
+			             <Number size="32" name="physPixelPerUnitY" signed="false"></Number>
+			              <Number size="8" name="UnkownUnitMeter" signed="false"></Number>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="sPLT">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="sPLT" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="tIME">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="tIME" token="true"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="iTXt">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="iTXt" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="tEXt">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="tEXt" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+		     <DataModel name="zTXt">
+			     <Number size="32" name="datalength" signed="false" endian="big">
+					<Relation type="size" of="data"/>
+		  		 </Number>
+		 		 <String name="BolckFlag" length="4" value="zTXt" token="true" mutable="false"></String>
+		 		 <Block name="data">
+                      	<Blob/>
+		 		 </Block>
+		  		 <Number size="32" name="CRC" signed="false"></Number>
+		     </DataModel>
+
+	<DataModel name="PLTE">
+		   <Number size="32" name="datalength" signed="false" endian="big">
+				<Relation type="size" of="data"/>
+		  </Number>
+		  <String name="BolckFlag" length="4" value="PLTE" token="true" mutable="false"></String>
+		  <Block name="data">
+                      <Blob/>
+		  </Block>
+		  <Number size="32" name="CRC" signed="false"></Number>
+	</DataModel>
+
+	<DataModel name="IDAT">
+		  <Number size="32" name="datalength" signed="false" endian="big">
+				<Relation type="size" of="data"/>
+		  </Number>
+		  <String name="BolckFlag" length="4" value="IDAT" token="true" mutable="false"></String>
+		  <Block name="data">
+                      <Blob/>
+		  </Block>
+		  <Number size="32" name="CRC" signed="false"></Number>
+	</DataModel>
+
+	<DataModel name="IEND">
+		<Blob length="12" valueType="hex" value="00 00 00 00 49 45 4E 44 AE 42 60 82" token="true" mutable="false"/>
+	</DataModel>
+
+	<DataModel name="PNG">
+		 <Blob length="8" name="ID" valueType="hex" value="89 50 4E 47 0D 0A 1A 0A" token="true" mutable="false"/>
+		 <Block ref="IHDR"></Block>
+		 <Choice maxOccurs="30000" >
+		     <Block ref="cHRM"></Block>
+		     <Block ref="gAMA"></Block>
+		     <Block ref="iCCP"></Block>
+		     <Block ref="sRGB"></Block>
+		     <Block ref="sBIT"></Block>
+		     <Block ref="bKGD"></Block>
+		     <Block ref="hIST"></Block>
+		     <Block ref="tRNS"></Block>
+		     <Block ref="pHYs"></Block>
+		     <Block ref="sPLT"></Block>
+		     <Block ref="tIME"></Block>
+		     <Block ref="iTXt"></Block>
+		     <Block ref="tEXt"></Block>
+		     <Block ref="zTXt"></Block>
+		     <Block ref="PLTE"></Block>
+		     <Block ref="IDAT"></Block>
+		  </Choice>
+            <Block ref="IEND"></Block>
+	</DataModel>
+</Peach>
+

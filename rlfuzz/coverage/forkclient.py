@@ -96,7 +96,7 @@ class ForkClient:
 
                         cmd = [
                             # rlfuzz.afl_forkserver_path(),
-                            rlfuzz.afl_2_57_forkserver_path(),
+                            rlfuzz.afl_forkserver_path(),
                             '-m', 'none',
                             '-f', afl_out_file,
                             '-r', self.randStr,
