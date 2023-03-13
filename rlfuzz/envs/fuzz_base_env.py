@@ -27,6 +27,11 @@ class FuzzBaseEnv(gym.Env):
         else:
             self.engine = coverage.Afl(self._target_path, args=self._args, suffix=self._suffix, set_out=self._set_out)
 
+        self.beginTime = time.time()
+        with open("fuzz_cov.txt","w+") as fp:
+            fp.write("Begin to record " + str(self.beginTime) +"\n")
+        self.count = 0
+        self.recordIter = 0
         self.mutate_num_history = None
         self.muteble_num_list = None
         self.muteble_num = None #变异块的数量
@@ -99,7 +104,8 @@ class FuzzBaseEnv(gym.Env):
 
         # 记录全局访问过的新edge的数量（每条edge触发的不同次数视作不同edge）
         self.virgin_multi_count = 0
-
+        self.new_step = 0
+        self.last_step = 0
         # 从配置文件读取保存poc的地址
         self.POC_PATH = r'/tmp'
         cfg = ConfigParser()
@@ -116,9 +122,9 @@ class FuzzBaseEnv(gym.Env):
             self.action_space = spaces.Discrete(self.mutate_size)
 
     def reset(self):
-        self.seed_index = 0
-        self.last_input_data = self._seed[self.seed_index]
-        self.input_dict = {}
+        self.seed_index = 0  #reset seed index to 0
+        self.last_input_data = self._seed[self.seed_index] #reset input_data to seed[seed_index]
+        self.input_dict = {}  #reset interesting seed list
         self.multi_seed_input_dict = {self.seed_index: self.input_dict}
 
         if self.socket_flag:
@@ -195,7 +201,7 @@ class FuzzBaseEnv(gym.Env):
                                range(self.mutate_size + 64 + 32, self.mutate_size + 64 + 32 + 32,
                                      16)]  # np.argmax(action[self.mutate_size + 64 + 32:])
                 ll = [12, 8, 4, 0]
-                #这一步是把locs拼装起来，因为action是把他分成0xff,0xff,0xff,0xff了
+                #这一步是把locs拼装起来，因为action是把他分成0xf,0xf,0xf,0xf了
                 loc = sum([n << l for n, l in zip(locs, ll)])
                 #拼装density
                 density = sum([n << l for n, l in zip(dens, ll[-2:])])
@@ -268,7 +274,7 @@ class FuzzBaseEnv(gym.Env):
         tmpHash = self.covHash.digest()
         # if tmpHash not in list(self.input_dict): # 如果当前变异产生新覆盖则选择变异后样本进行下一次变异
         if self.updateVirginMap(self.coverageInfo.coverage_data):
-            reward = self.coverageInfo.reward() * 2
+            reward = self.coverageInfo.reward()
             self.change_seed_count = 0  # 更换种子计数清零
             self.input_dict[tmpHash] = input_data
             self.last_input_data = input_data
@@ -290,6 +296,13 @@ class FuzzBaseEnv(gym.Env):
         self.unique_path_history.append(
             sum([len(value) for value in self.multi_seed_input_dict.values()]))  # 记录每一步之后发现的总的有效样本数
 
+        # print edge info
+        with open("/home/zzr/RLFuzz_peach/edgerate.txt", 'a+') as fp:
+            #fp.write(info['input_data'])
+            fp.write("current edge rate:"+str(self.coverageInfo.transition_count() / 65535) + "\n")
+            fp.write("total edge num:" + str(self.virgin_single_count /65535) + "\n")
+        print("\n"+"current edge rate:"+str(self.coverageInfo.transition_count() / 65535) + "\n")
+        print("\n"+"total edge num:" + str(self.virgin_single_count) + "\n")
         # 记录每一步运行的EDGE数量
         self.transition_count.append(self.coverageInfo.transition_count())
         if self.change_seed_count >= 100:
@@ -301,8 +314,18 @@ class FuzzBaseEnv(gym.Env):
         }
 
     def step(self, action):
+        self.new_step = time.perf_counter()
+        elapsed_time = (self.new_step - self.last_step) * 1000
+        print(f"new step cost : {elapsed_time:.3f} ms")
 
+
+        self.count = self.count+1
+        start_step_raw_time = time.perf_counter()
         info = self.step_raw(action)
+        end_step_raw_time = time.perf_counter()
+        elapsed_time = (end_step_raw_time - start_step_raw_time) * 1000
+
+        print(f"step_raw cost : {elapsed_time:.3f} ms")
         reward = info['reward']
         assert reward <= 1
 
@@ -316,7 +339,11 @@ class FuzzBaseEnv(gym.Env):
                 fp.write(info['input_data'])
         else:
             done = False
-
+        curTime = time.time()
+        if curTime-self.beginTime > self.recordIter*1800:
+            self.recordIter  = self.recordIter+1
+            with open("fuzz_cov.txt", "a+") as fp:
+                fp.write("recordIter{} : cov is {} ; edge num is {} ; mutenum is {}\n".format(self.recordIter,reward,self.virgin_single_count,self.count))
         # 记录reward
         self.reward_history.append(reward)
 
@@ -327,7 +354,7 @@ class FuzzBaseEnv(gym.Env):
 
         assert len(state) == self.input_maxsize, '[!] len(state)={}, self.input_maxsize={}'.format(len(state),
                                                                                                    self.input_maxsize)
-
+        self.last_step = time.perf_counter()
         return state, reward, done, {}
 
     def render(self, mode='human', close=False):
@@ -354,7 +381,7 @@ class FuzzBaseEnv(gym.Env):
         self.seed_index %= seed_length  # 防止越界
         self.observation_space = spaces.Box(0, 255, shape=(self.input_maxsize,),
                                             dtype='int8')  # 更新状态空间（set_seed后需要修改）
-
+        #if this seed already mutated
         if self.seed_index in self.multi_seed_input_dict:
             self.input_dict = self.multi_seed_input_dict[self.seed_index]
             while not self.input_dict:

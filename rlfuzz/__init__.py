@@ -19,10 +19,11 @@ def afl_2_57_forkserver_path():
 
 # base64_afl
 def base64_target_path():
-    package_directory = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(
-        package_directory, 'mods/lava-m-mod/base64_afl',
-    )
+    # package_directory = os.path.dirname(os.path.abspath(__file__))
+    # return os.path.join(
+    #     package_directory, 'mods/lava-m-mod/base64_afl',
+    # )
+    return "/home/zzr/RLFuzz_peach/rlfuzz/mods/lava-m-mod/base64_afl"
 
 
 register(
@@ -33,10 +34,11 @@ register(
 
 # md5sum_afl
 def md5sum_target_path():
-    package_directory = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(
-        package_directory, 'mods/lava-m-mod/md5sum_afl',
-    )
+    # package_directory = os.path.dirname(os.path.abspath(__file__))
+    # return os.path.join(
+    #     package_directory, 'mods/lava-m-mod/md5sum_afl',
+    # )
+    return "/home/zzr/RLFuzz_peach/rlfuzz/mods/lava-m-mod/md5sum_afl"
 
 
 register(
@@ -92,9 +94,7 @@ register(
 
 def libpng_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(
-        package_directory, 'mods/fuzzer-test-suite-mod/programs/libpng-1.2.56-afl',
-    )
+    return "/home/zzr/fuzzer-test-suite-master/libpng-1.2.56/build/libpng-afl"
 
 
 register(
@@ -106,10 +106,11 @@ register(
 # gueztil
 
 def gueztil_target_path():
-    package_directory = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(
-        package_directory, 'mods/fuzzer-test-suite-mod/programs/guetzli-2017-3-30-afl',
-    )
+    # package_directory = os.path.dirname(os.path.abspath(__file__))
+    # return os.path.join(
+    #     package_directory, 'mods/fuzzer-test-suite-mod/programs/guetzli-2017-3-30-afl',
+    #
+    return "/home/zzr/fuzzer-test-suite-master/guetzli-2017-3-30/build/gue-afl"
 
 
 register(
@@ -122,9 +123,10 @@ register(
 
 def libjpeg_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(
-        package_directory, 'mods/fuzzer-test-suite-mod/programs/libjpeg-turbo-07-2017-afl',
-    )
+    # return os.path.join(
+    #     package_directory, 'mods/fuzzer-test-suite-mod/programs/libjpeg-turbo-07-2017-afl',
+    # )
+    return "/home/zzr/fuzzer-test-suite-master/libjpeg-turbo-07-2017/build/libjpeg.afl"
 
 
 register(

@@ -1,3 +1,5 @@
+import time
+
 import gym
 from gym import spaces
 import datetime
@@ -24,7 +26,10 @@ class FuzzBaseEnv(gym.Env):
             self.engine = coverage.SocketComm(self.target_ip, self.target_port, self.comm_method)
         else:
             self.engine = coverage.Afl(self._target_path, args=self._args, suffix=self._suffix)
-
+        with open("fuzz_cov.txt","w+") as fp:
+            fp.write("Begin to record\n")
+        self.beginTime = time.time()
+        self.recordIter = 0
         self.mutate_num_history = None
         self.muteble_num_list = None
         self.muteble_num = None
@@ -290,7 +295,7 @@ class FuzzBaseEnv(gym.Env):
         tmpHash = self.covHash.digest()
         # if tmpHash not in list(self.input_dict): # 如果当前变异产生新覆盖则选择变异后样本进行下一次变异
         if self.updateVirginMap(self.coverageInfo.coverage_data):
-            reward = self.coverageInfo.reward() * 2
+            reward = self.coverageInfo.reward()
             self.change_seed_count = 0  # 更换种子计数清零
             self.input_dict[tmpHash] = input_data
             self.last_input_data = input_data
@@ -338,7 +343,11 @@ class FuzzBaseEnv(gym.Env):
                 fp.write(info['input_data'])
         else:
             done = False
-
+        curTime = time.time()
+        if curTime-self.beginTime > self.recordIter*3600:
+            self.recordIter  = self.recordIter+1
+            with open("fuzz_cov.txt", "w+") as fp:
+                fp.write("recordIter{} : cov is {}\n".format(self.recordIter,reward))
         # 记录reward
         self.reward_history.append(reward)
 

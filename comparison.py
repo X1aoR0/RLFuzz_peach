@@ -30,27 +30,31 @@ from rl.callbacks import Callback
 from rlfuzz.envs.restart_remote_monitor import restart_ssh
 
 np.random.seed(5)
+# project root dir
+project_dir = "/home/zzr/RLFuzz_peach"
 
-os.chdir('/home/real/Rlfuzz-peach/')
+os.chdir(project_dir)
 
 # 每个环境的初始文件路径
 INITIAL_SEED_PATH = {
-    'FuzzBase64-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/base64/inputs/utmp.b64',
-    'FuzzMd5sum-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/md5sum/inputs/bin-ls-md5s',
-    'FuzzUniq-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/uniq/inputs/man-clang3-sorted',
-    'FuzzWho-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/who/inputs/utmp',
-    'FuzzBase64-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/base64/inputs/utmp.b64',
-    'FuzzMd5sum-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/md5sum/inputs/bin-ls-md5s',
-    'FuzzUniq-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/uniq/inputs/man-clang3-sorted',
-    'FuzzWho-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/who/inputs/utmp',
-    'FuzzAC68U-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/router-mod/AC68U/4.txt',
-    'FuzzAC9-v0': r'/home/real/AIfuzz/multimutatefuzz/rlfuzz/gym_fuzzing/gym_fuzz1ng/mods/router-mod/AC68U/host10.txt',
-    'Fuzzgzip-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/gzip-mod/seed',  # /1.ppt.gz',
-    'Fuzzlibpng-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/fuzzer-test-suite-mod/libpng-1.2.56/seeds/',
-    'FuzzPngquant-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/pngquant-mod/pngquant-master/test/img/',
-    'Fuzzguetzil-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
-    'Fuzzlibjpeg-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
-    'FuzzCImg-v0': r'/home/real/Rlfuzz-peach/rlfuzz/mods/Cimg-mod/SEED'
+    'FuzzBase64-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/base64/inputs/utmp.b64',
+    'FuzzMd5sum-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/md5sum/inputs/bin-ls-md5s',
+    'FuzzUniq-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/uniq/inputs/man-clang3-sorted',
+    'FuzzWho-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/who/inputs/utmp',
+    'FuzzBase64-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/base64/inputs/utmp.b64',
+    'FuzzMd5sum-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/md5sum/inputs/bin-ls-md5s',
+    'FuzzUniq-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/uniq/inputs/man-clang3-sorted',
+    'FuzzWho-v0': project_dir + r'/rlfuzz/mods/lava-m-mod/lava_corpus/LAVA-M/who/inputs/utmp',
+    'FuzzAC68U-v0': project_dir + r'/rlfuzz/mods/router-mod/AC68U/4.txt',
+    'FuzzAC9-v0': project_dir + r'/home/real/AIfuzz/multimutatefuzz/rlfuzz/gym_fuzzing/gym_fuzz1ng/mods/router-mod/AC68U/host10.txt',
+    'Fuzzgzip-v0': project_dir + r'/rlfuzz/mods/gzip-mod/seed',  # /1.ppt.gz',
+    'Fuzzlibpng-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/libpng-1.2.56/seeds/',
+    'FuzzPngquant-v0': project_dir + r'/rlfuzz/mods/pngquant-mod/pngquant-master/test/img/',
+    'Fuzzguetzil-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
+    'Fuzzlibjpeg-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
+    'FuzzCImg-v0': project_dir + r'/rlfuzz/mods/Cimg-mod/SEED'
+
+
 }
 
 
@@ -111,7 +115,7 @@ if __name__ == "__main__":
     parser.add_argument('--start_time', '-st', help='start time.')
     parser.add_argument('--use_seed', '-us', action='store_true', help='if use initial seed.')
     parser.add_argument('--activation', '-a', default='relu', help='activation function.')
-    parser.add_argument('--steps', default=20000, help='all steps number.', type=int)
+    parser.add_argument('--steps', default=20000000, help='all steps number.', type=int)
     parser.add_argument('--radio', default=0.1, help='warmup radio.', type=float)
     parser.add_argument('--peach', action='store_true', help='Use Peach')
     parser.add_argument('--pit', help='Pit File Path')
@@ -119,7 +123,8 @@ if __name__ == "__main__":
     # 设置warmup的步数
     ALL_STEPS = args.steps
     # 总步数乘以radio就是Warmup的步数
-    WARMUP_STEPS = int(ALL_STEPS * args.radio)
+    #WARMUP_STEPS = int(ALL_STEPS * args.radio)
+    WARMUP_STEPS = 1000
     # 激活函数
     ACTIVATION = args.activation
     # 指定gym env
@@ -145,7 +150,7 @@ if __name__ == "__main__":
                     'FuzzAC68U-v0', 'FuzzAC9-v0', 'Fuzzgzip-v0', 'Fuzzlibpng-v0', 'Fuzzguetzil-v0', 'Fuzzlibjpeg-v0', 'FuzzCImg-v0'] and METHOD in [
                     "random", "ddpg", "dqn", "double-dqn", "duel-dqn"]:
         env = gym.make(ENV_NAME)
-        env.seed(5)  # 起点相同
+        #env.seed(5)  # 起点相同
 
         if args.use_seed:  # 输入初始数据
             SEED_PATH = INITIAL_SEED_PATH[ENV_NAME]

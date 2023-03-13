@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://peachfuzzer.com/2012/Peach /peach/peach.xsd">
+
+	<!-- Create data model -->
+	<Defaults>
+		<Number signed="false" endian="little"/>
+	</Defaults>
+	
+	<DataModel name="blank">
+
+	</DataModel>
+</Peach>
+
+			<!-- CRC of the compressed_data section	
+			
+
+			<Number name = "CRC32" size = "32" mutable="false" >
+				<Fixup class = "checksums.Crc32Fixup">
+					<Param name = "ref" value = "compressed_data" />
+				</Fixup>
+			</Number>
+			-->

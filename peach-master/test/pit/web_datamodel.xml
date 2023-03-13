@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach author="tzh">
+	<DataModel name="HeaderModel">
+		<String name="Header" /> 
+		<String value=": " token="true"/> 
+		<String name="Value" /> 
+		<String value="\r\n" token="true"/> 
+	</DataModel>
+
+	<DataModel name="Host" ref="HeaderModel">
+		<String name="Header" value="Host:" />
+		<String name="Value" value="192.168.50.1" />
+	</DataModel>
+
+	<DataModel name="Connection" ref="HeaderModel">
+		<String name="Header" value="Connection" />
+		<String name="Value" value="keep-alive" />
+	</DataModel>
+
+	<DataModel name="User-Agent" ref="HeaderModel">
+		<String name="Header" value="User-Agent" />
+		<String name="Value" value="Mozilla/5.0" />
+	</DataModel>
+
+	<DataModel name="Accept-Language" ref="HeaderModel">
+		<String name="Header" value="Accept-Language" />
+		<String name="Value" value="zh-CN,zh;q=0.9" />
+	</DataModel>
+
+	<DataModel name="Accept" ref="HeaderModel">
+		<String name="Header" value="Accept" />
+		<String name="Value" value="text/html,application/xhtml+xml,application/xml;q=0.9" />
+	</DataModel>
+
+	<DataModel name="Accept-Encoding" ref="HeaderModel">
+		<String name="Header" value="Accept-Encoding" />
+		<String name="Value" value="gzip" />
+	</DataModel>
+
+	<DataModel name="Cache-control" ref="HeaderModel">
+		<String name="Header" value="Cache-control" />
+		<String name="Value" value="max-age=60" />
+	</DataModel>
+
+	<DataModel name="Cookie" ref="HeaderModel">
+		<String name="Header" value="Cookie" />
+	</DataModel>
+
+	<DataModel name="Content-Length" ref="HeaderModel"> 
+		<String name="Header" value="Content-Length" /> 
+		<String name="Value"> 
+			<Relation type="size" of="HttpRequest.Body"/> 
+		</String> 
+	</DataModel> 
+
+	<DataModel name="Content-Type" ref="HeaderModel">
+		<String name="Header" value="Content-Type" />
+		<String name="Value" value="text/html" />
+	</DataModel>
+
+	<DataModel name="HttpRequest">
+		<Block name="RequestLine">
+			<String name="Method"/>
+			<String value="POST " token="true" mutable="false"/> 
+			<String name="RequestUri"/> 
+			<String value="/start_apply2.htm " token="true" mutable="false"/>
+			<String name="HttpVersion"/>
+			<String value="HTTP/1.1\r\n" token="true"/> 
+		</Block>
+		<Choice name="RequestHeader" maxOccurs="20">
+			<Block ref="Host"/>
+			<Block ref="Connection"/>
+			<Block ref="User-Agent"/>
+			<Block ref="Accept"/>
+			<Block ref="Accept-Language"/>
+			<Block ref="Accept-Encoding"/>
+			<Block ref="Cache-control"/>
+			<Block ref="Cookie"/>
+			<Block ref="Content-Length"/>
+			<Block ref="Content-Type"/>
+			<Block ref="HeaderModel"/>
+		</Choice>
+		<String value="\r\n" token="true"/>
+	</DataModel>
+</Peach>
+
