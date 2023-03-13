@@ -1,5 +1,5 @@
 import numpy as np
-
+import time
 import operator
 from rlfuzz.coverage.forkclient import ForkClient
 from rlfuzz.coverage.forkclient import STATUS_CRASHED
@@ -11,6 +11,7 @@ MAP_SIZE_SOCKET = 12016
 
 class Coverage:
     def __init__(self, coverage_status=None, coverage_data=None, verbose=False, socket_flag=False):
+
         self.crashes = 0
         self.verbose = verbose
         self.socket_flag = socket_flag
@@ -24,8 +25,12 @@ class Coverage:
         if socket_flag:
             self.coverage_data = np.array([each for each in coverage_data], dtype=np.uint8)
         else:
+            start_time = time.perf_counter()
             self.coverage_data = np.array(
                 list(map(self.classify_counts, coverage_data)), dtype=np.uint8)
+        end_time = time.perf_counter()
+        elapsed_time = (end_time - start_time) * 1000
+        print(f"coverage_data cost : {elapsed_time:.3f} ms")
 
     # Reward
     def reward(self):
@@ -73,15 +78,27 @@ AFL ENGINE
 
 
 class Afl:
-    def __init__(self, target_path, args=[], suffix=None, set_out=[], verbose=False, ):
+    def __init__(self, target_path, args=[], verbose=False):
+        # verbose doesn't have any output
         self.verbose = verbose
-        self.fc = ForkClient(target_path, args, suffix, set_out)
+        self.fc = ForkClient(target_path, args)
 
     def run(self, input_data):
+        # 获取当前时间
+        start_time = time.perf_counter()
+        #print("before fc run：", current_time)
+        (status, data,cmp_log_map) = self.fc.run(input_data)
 
-        (status, data) = self.fc.run(input_data)
-        return Coverage(status, data, self.verbose)
+        end_time = time.perf_counter()
+        elapsed_time = (end_time - start_time) * 1000
+        print(f"fc.run cost : {elapsed_time:.3f} ms")
+        # 计算程序执行时间
+        #elapsed_time = time.time() - current_time
+        #print("after fc run：", current_time)
 
+        #Cmpmap = cmp_map.from_buffer_copy(cmp_log_map)
+        Cmpmap = cmp_log_map
+        return (Coverage(status, data, self.verbose),Cmpmap)
 
 """
 Socket TCP communication

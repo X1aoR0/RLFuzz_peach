@@ -1,0 +1,1 @@
+cmp_log_flag = 0

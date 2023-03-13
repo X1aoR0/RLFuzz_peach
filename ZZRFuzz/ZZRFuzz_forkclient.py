@@ -7,12 +7,11 @@ import os
 import signal
 import subprocess
 import threading
-import rlfuzz
 import datetime
 import base64
 
 from posix_ipc import SharedMemory, Semaphore, ExistentialError
-from ZZRFuzz.config import cmp_log_flag
+from config import cmp_log_flag
 def afl_forkserver_path():
     return "/home/zzr/AFLplusplus/afl-fuzz"
 
@@ -61,6 +60,9 @@ def start_target_forkserver(command,env):
             break
         if output:
             print(output.strip())
+
+
+
 
 
 class ForkClient:
