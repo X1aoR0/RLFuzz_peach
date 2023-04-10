@@ -1,6 +1,6 @@
 # 参考libfuzzer实现
 # https://zanderchang.github.io/2019/12/11/libfuzzer%E4%B8%AD%E7%9A%84%E5%8F%98%E5%BC%82%E7%AD%96%E7%95%A5%E5%88%86%E6%9E%90/#more
-
+import random
 from random import randint, shuffle
 import struct
 
@@ -405,15 +405,28 @@ class FuzzMutatorPlus():
     def Mutate_AddWordFromManualDictionary(self, data, loc, density):
         return data
 
-    def mutate(self, idx, data, loc, density):
+
+    def Mutate_ChangeByteFromKeyList(self, data, loc, density,key_byte_list):
+        if len(data) > self.maxSize or len(data) == 0:
+            return data
+        else:
+            l = list(data)
+            l[loc] = random.choice(key_byte_list)%0xff
+            return bytes(l)
+
+    def mutate(self, idx, data, loc, density,key_byte_list):
         loc, density = int(loc), int(density)
-        assert 0 <= idx < self.methodNum
+        assert 0 <= idx < self.methodNum+1
         if len(data) > 0:
             loc %= len(data)
             assert 0 <= loc < len(data)
         assert 0 <= density <= 255
-        mutatorFunc = self.funcMap[idx]
-        return mutatorFunc(data, loc, density)[:self.maxSize]
+        if idx == len(self.funcMap):
+            mutatorFunc = self.Mutate_ChangeByteFromKeyList
+            return mutatorFunc(data, loc, density, key_byte_list)[:self.maxSize]
+        else:
+            mutatorFunc = self.funcMap[idx]
+            return mutatorFunc(data, loc, density)[:self.maxSize]
 
 if __name__ == "__main__":
     mutator = FuzzMutatorPlus(128)

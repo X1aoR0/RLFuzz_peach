@@ -12,7 +12,7 @@ import datetime
 import base64
 
 from posix_ipc import SharedMemory, Semaphore, ExistentialError
-from ZZRFuzz.config import cmp_log_flag
+from ZZRFuzz import config
 def afl_forkserver_path():
     return "/home/zzr/AFLplusplus/afl-fuzz"
 
@@ -103,7 +103,7 @@ class ForkClient:
 
                         fd, afl_out_file = tempfile.mkstemp(suffix='afl_out_file')
                         os.close(fd)
-
+                        os.system("rm -r /home/zzr/ZZRFuzz/out_afl")
                         FNULL = open(os.devnull, 'w')
                         #AFL的启动参数
                         cmd = [
@@ -203,7 +203,7 @@ class ForkClient:
         """
         (msgid, status) = struct.unpack(_pong_struc, msg[:_pong_struc_size])
         data = msg[_pong_struc_size:_pong_struc_size+MAP_SIZE]
-        if cmp_log_flag:
+        if config.cmp_log_flag:
             cmp_log = msg[_pong_struc_size+MAP_SIZE:_pong_struc_size+MAP_SIZE+CMP_MAP_SIZE]
         else:
             cmp_log = None

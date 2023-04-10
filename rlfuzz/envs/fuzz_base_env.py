@@ -14,7 +14,8 @@ from rlfuzz.coverage import MAP_SIZE_SOCKET
 from rlfuzz.envs.fuzz_mutator import *
 from rlfuzz.envs.sample_analyse import *
 from ZZRFuzz.ZZRFuzz_crackseed import *
-
+from ZZRFuzz.ZZRFuzz_computeRate import *
+from ZZRFuzz import config
 class FuzzBaseEnv(gym.Env):
     def __init__(self, socket_flag=False):
         self.socket_flag = False
@@ -41,7 +42,7 @@ class FuzzBaseEnv(gym.Env):
 
         self.input_maxsize = self._input_maxsize  # 最大input大小
         self.mutator = FuzzMutatorPlus(self.input_maxsize)  # 变异策略
-        self.mutate_size = self.mutator.methodNum  # 变异策略种类
+        self.mutate_size = self.mutator.methodNum+1  # 变异策略种类
         self.density_size = 256  # [0, 255] 强度定义
 
         self.initial_seed = True
@@ -111,9 +112,14 @@ class FuzzBaseEnv(gym.Env):
         cfg = ConfigParser()
         if cfg.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')):
             self.POC_PATH = cfg.get('PATH', 'POC_PATH')
-
+        self.initial_seed_cmp_map = {}
+        self.initial_seed_cov = {}
+        self.seed_but_not_initial = False
+        self.is_single_byte_mutate = False
+        self.key_byte_list = []
+        self.key_byte_list.append(0)
         self.reset()
-
+        self.cur_state = 0
     # 切换到Discrete环境
     def setDiscreteEnv(self):
         if not self.isDiscreteEnv:
@@ -176,7 +182,9 @@ class FuzzBaseEnv(gym.Env):
         return res
 
     def step_raw(self, action):
-
+        loc = 0
+        new_block_length = 0
+        block_start_loc = 0
         if not self.isDiscreteEnv:  # 连续环境
             # self.action_history.append(action)
             # action[-2:] = np.clip(action[-2:], -1, 1) # noise可能会使tanh的输出超出[-1,1]
@@ -184,7 +192,9 @@ class FuzzBaseEnv(gym.Env):
 
             # 模型输出 -> actual
             # mutate = self.actor2actual(action[0], self.mutate_size)
-            # 
+            # locs
+
+
             if self.PeachFlag:
                 if self.action_space.contains(action):
                     mutate = action['mutate']
@@ -200,6 +210,20 @@ class FuzzBaseEnv(gym.Env):
                     mutable = [np.argmax(action[start: start + 16]) for start in
                                range(self.mutate_size + 64 + 32, self.mutate_size + 64 + 32 + 32,
                                      16)]  # np.argmax(action[self.mutate_size + 64 + 32:])
+                # force to single byte mutate
+                mutate = mutate%3
+                if mutate == 0:
+                    mutate = 3
+                elif mutate == 1:
+                    mutate = 4
+                else:
+                    mutate = self.mutator.methodNum
+
+                if mutate == 3 or mutate == 4 or mutate == self.mutator.methodNum:
+                    self.is_single_byte_mutate = True
+                else:
+                    self.is_single_byte_mutate = False
+
                 ll = [12, 8, 4, 0]
                 #这一步是把locs拼装起来，因为action是把他分成0xf,0xf,0xf,0xf了
                 loc = sum([n << l for n, l in zip(locs, ll)])
@@ -221,7 +245,7 @@ class FuzzBaseEnv(gym.Env):
                     tmp_input_data_front = self.last_input_data[:block_start_loc]
                     block_input_data = self.last_input_data[block_start_loc:block_start_loc + block_length]
                     tmp_input_data_behind = self.last_input_data[block_start_loc + block_length:]
-                    new_block_data = self.mutator.mutate(mutate, block_input_data, loc, density)
+                    new_block_data = self.mutator.mutate(mutate, block_input_data, loc, density,self.key_byte_list)
                     new_block_length = len(new_block_data)
                     self.seed_block[mutate_block_index][1] = new_block_length
                     for i in range(mutate_block_index + 1, len(self.seed_block)):
@@ -265,13 +289,49 @@ class FuzzBaseEnv(gym.Env):
         if self.PeachFlag:
             self.mutate_num_history.append(mutate_block_index)
 
-        # 执行一步获取覆盖率信息
-        self.coverageInfo = self.engine.run(input_data)
-        self.initial_seed = False
+        if self.initial_seed == True:
+            with open("/tmp/cmp_log_config", "w") as cmp_log_config:
+                cmp_log_config.write("1")
+            config.cmp_log_flag = 1
+            # 执行一步获取覆盖率信息
+            self.coverageInfo,cmp_map = self.engine.run(input_data)
+            self.initial_seed_cmp_map[self.seed_index] = cmp_map
+            with open("/tmp/cmp_log_config", "w") as cmp_log_config:
+                cmp_log_config.write("0")
+            config.cmp_log_flag = 0
+        elif self.seed_but_not_initial and self.is_single_byte_mutate and not config.Stage_3:
+            self.seed_but_not_initial = False
+            self.is_single_byte_mutate = False
+            with open("/tmp/cmp_log_config", "w") as cmp_log_config:
+                cmp_log_config.write("1")
+            config.cmp_log_flag = 1
+            # 执行一步获取覆盖率信息
+            self.coverageInfo,cmp_map = self.engine.run(input_data)
+
+            with open("/tmp/cmp_log_config", "w") as cmp_log_config:
+                cmp_log_config.write("0")
+            config.cmp_log_flag = 0
+            # cal key byte
+            mute_byte_index = block_start_loc + loc % new_block_length
+            cur_byte = input_data[mute_byte_index]
+            init_byte = self.input_dict[self.initial_seed_cov[self.seed_index]][mute_byte_index]
+            cur_ket_byte_list = computeRate(self.initial_seed_cmp_map[self.seed_index],cmp_map,init_byte,cur_byte)
+
+            for x in list(set(cur_ket_byte_list)):
+                self.key_byte_list.append(x)
+
+            with open("./key_byte_list", "a+") as key_list_fp:
+                key_list_fp.write("iter "+ str(self.count)+": "+str(self.key_byte_list))
+        else:
+            self.coverageInfo, cmp_map = self.engine.run(input_data)
+
         # 记录产生新覆盖记录的input
         self.covHash.reset()
         self.covHash.update(self.coverageInfo.coverage_data.tostring())
         tmpHash = self.covHash.digest()
+        if self.initial_seed == True:
+            self.initial_seed_cov[self.seed_index] = tmpHash
+        self.initial_seed = False
         # if tmpHash not in list(self.input_dict): # 如果当前变异产生新覆盖则选择变异后样本进行下一次变异
         if self.updateVirginMap(self.coverageInfo.coverage_data):
             reward = self.coverageInfo.reward()
@@ -288,6 +348,9 @@ class FuzzBaseEnv(gym.Env):
             else:
                 rand_choice = random.choice(list(self.input_dict))
                 self.last_input_data = self.input_dict[rand_choice]
+                if rand_choice == self.initial_seed_cov[self.seed_index]:
+                    self.seed_but_not_initial = True
+
                 if self.PeachFlag:  # update model crack result when not fuzz in sequence
                     self.seed_block, self.muteble_num = copy.deepcopy(self.useful_sample_crack_info[rand_choice][0]), \
                                                         self.useful_sample_crack_info[rand_choice][1]
@@ -355,6 +418,7 @@ class FuzzBaseEnv(gym.Env):
         assert len(state) == self.input_maxsize, '[!] len(state)={}, self.input_maxsize={}'.format(len(state),
                                                                                                    self.input_maxsize)
         self.last_step = time.perf_counter()
+        self.cur_state = state
         return state, reward, done, {}
 
     def render(self, mode='human', close=False):
