@@ -1,10 +1,12 @@
 import numpy as np
 import time
 import operator
+
+from ZZRFuzz.ZZRFuzz_Cmplog import cmp_map
 from rlfuzz.coverage.forkclient import ForkClient
 from rlfuzz.coverage.forkclient import STATUS_CRASHED
 from rlfuzz.coverage.socketengine import SocketEngine
-
+from ZZRFuzz import config
 PATH_MAP_SIZE = 2 ** 16
 MAP_SIZE_SOCKET = 12016
 
@@ -22,7 +24,7 @@ class Coverage:
         if coverage_status == STATUS_CRASHED:
             self.crashes = 1
 
-        if socket_flag:
+        if config.init_crack_mode:
             self.coverage_data = np.array([each for each in coverage_data], dtype=np.uint8)
         else:
             start_time = time.perf_counter()
@@ -95,9 +97,10 @@ class Afl:
         # 计算程序执行时间
         #elapsed_time = time.time() - current_time
         #print("after fc run：", current_time)
-
-        #Cmpmap = cmp_map.from_buffer_copy(cmp_log_map)
-        Cmpmap = cmp_log_map
+        if config.cmp_log_flag:
+            Cmpmap = cmp_map.from_buffer_copy(cmp_log_map)
+        else:
+            Cmpmap = cmp_log_map
         return (Coverage(status, data, self.verbose),Cmpmap)
 
 """

@@ -28,7 +28,7 @@ from rl.random import OrnsteinUhlenbeckProcess
 from rl.callbacks import Callback
 
 from rlfuzz.envs.restart_remote_monitor import restart_ssh
-
+import ZZRFuzz.config
 np.random.seed(5)
 # project root dir
 project_dir = "/home/zzr/RLFuzz_peach"
@@ -52,8 +52,8 @@ INITIAL_SEED_PATH = {
     'FuzzPngquant-v0': project_dir + r'/rlfuzz/mods/pngquant-mod/pngquant-master/test/img/',
     'Fuzzguetzil-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
     'Fuzzlibjpeg-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
-    'FuzzCImg-v0': project_dir + r'/rlfuzz/mods/Cimg-mod/SEED'
-
+    'FuzzCImg-v0': project_dir + r'/rlfuzz/mods/Cimg-mod/SEED',
+    'Fuzzcmptest-v0': '/home/zzr/ZZRFuzz/in_afl/'+'testnew_forcmp'
 
 }
 
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     parser.add_argument('--start_time', '-st', help='start time.')
     parser.add_argument('--use_seed', '-us', action='store_true', help='if use initial seed.')
     parser.add_argument('--activation', '-a', default='relu', help='activation function.')
-    parser.add_argument('--steps', default=20000000, help='all steps number.', type=int)
+    parser.add_argument('--steps', default=10, help='all steps number.', type=int)
     parser.add_argument('--radio', default=0.1, help='warmup radio.', type=float)
     parser.add_argument('--peach', action='store_true', help='Use Peach')
     parser.add_argument('--pit', help='Pit File Path')
@@ -124,7 +124,8 @@ if __name__ == "__main__":
     ALL_STEPS = args.steps
     # 总步数乘以radio就是Warmup的步数
     #WARMUP_STEPS = int(ALL_STEPS * args.radio)
-    WARMUP_STEPS = 1000
+    #WARMUP_STEPS = 1000
+    WARMUP_STEPS = int(ALL_STEPS * args.radio)
     # 激活函数
     ACTIVATION = args.activation
     # 指定gym env
@@ -147,7 +148,7 @@ if __name__ == "__main__":
 
     # [e.id for e in gym.envs.registry.all()]
     if ENV_NAME in ['FuzzBase64-v0', 'FuzzMd5sum-v0', 'FuzzUniq-v0', 'FuzzWho-v0', 'FuzzPngquant-v0',
-                    'FuzzAC68U-v0', 'FuzzAC9-v0', 'Fuzzgzip-v0', 'Fuzzlibpng-v0', 'Fuzzguetzil-v0', 'Fuzzlibjpeg-v0', 'FuzzCImg-v0'] and METHOD in [
+                    'FuzzAC68U-v0', 'FuzzAC9-v0', 'Fuzzgzip-v0', 'Fuzzlibpng-v0', 'Fuzzguetzil-v0', 'Fuzzlibjpeg-v0', 'FuzzCImg-v0',"Fuzzcmptest-v0"] and METHOD in [
                     "random", "ddpg", "dqn", "double-dqn", "duel-dqn"]:
         env = gym.make(ENV_NAME)
         #env.seed(5)  # 起点相同
@@ -235,17 +236,39 @@ if __name__ == "__main__":
             agent.compile(Adam(lr=.001, clipnorm=1.), metrics=['mae'])
 
             timeCb = TimeHistory()
-            try:
-                history = agent.fit(env, nb_steps=ALL_STEPS, visualize=False, verbose=1, callbacks=[timeCb])
-            except Exception:
-                show_graghs(env, timeCb.training_time,
-                            '{}-ddpg-{}-{}-{}'.format(ENV_NAME, ACTIVATION, WARMUP_STEPS, PEACH),
-                            history=history.history)
+            load_last = False
+            if load_last:
+                agent.load_weights('ddpg_{}_weights.h5f'.format(ENV_NAME))
+                done_step = 10
+                state = env.reset()
+                while done_step >0:
+                    action = agent.forward(state)
+                    next_state,reward,done,_ = env.step(action)
+                    state = next_state
+                    done_step -= 1
             else:
-                show_graghs(env, timeCb.training_time,
-                            '{}-ddpg-{}-{}-{}'.format(ENV_NAME, ACTIVATION, WARMUP_STEPS, PEACH),
-                            history=history.history)
-
+                try:
+                    history = agent.fit(env, nb_steps=ALL_STEPS, visualize=False, verbose=1, callbacks=[timeCb])
+                except Exception:
+                    show_graghs(env, timeCb.training_time,
+                                '{}-ddpg-{}-{}-{}'.format(ENV_NAME, ACTIVATION, WARMUP_STEPS, PEACH),
+                                history=history.history)
+                else:
+                    show_graghs(env, timeCb.training_time,
+                                '{}-ddpg-{}-{}-{}'.format(ENV_NAME, ACTIVATION, WARMUP_STEPS, PEACH),
+                                history=history.history)
+                print("fit done")
+                agent.save_weights('ddpg_{}_weights.h5f'.format(ENV_NAME), overwrite=True)
+            print("Stage_3 Begin")
+            ZZRFuzz.config.Stage_3 = True
+            done_step = 10
+            state = env.cur_state
+            while done_step > 0:
+                action = agent.forward(state)
+                next_state, reward, done, _ = env.step(action)
+                state = next_state
+                done_step -= 1
+            print("Stage_3 End")
         elif METHOD == "dqn":  # DQN
             model = Sequential()
             model.add(Flatten(input_shape=(1,) + env.observation_space.shape))

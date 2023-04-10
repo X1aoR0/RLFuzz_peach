@@ -1,6 +1,6 @@
 import copy
 import time
-
+from ZZRFuzz.config import *
 init_cov = 0
 
 
@@ -36,6 +36,7 @@ def mute_seed(in_seed_bytes, index):
 def seedCrack(engine,seed_path):
     with open("/tmp/cmp_log_config", "w") as cmp_log_config:
         cmp_log_config.write("0")
+    init_crack_mode = 1
     with open(seed_path, "rb") as in_seed_fp:
         in_seed_bytes = in_seed_fp.read()
         # test one
@@ -67,4 +68,5 @@ def seedCrack(engine,seed_path):
         (seed_block,mutate_block_index) = crack_seed(cov_per_byte)
         print(seed_block)
         print(mutate_block_index)
+    init_crack_mode = 1
     return (seed_block,mutate_block_index)

@@ -1,1 +1,2 @@
-Begin to record 1678704329.0884356
+Begin to record 1681134451.4734876
+recordIter1 : cov is 0.000152587890625 ; edge num is 10 ; mutenum is 1

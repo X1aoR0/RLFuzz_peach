@@ -147,6 +147,17 @@ register(
 )
 
 
+def cmptest_target_path():
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join("/home/zzr/AFLplusplus/test_cmp_log")
+
+
+register(
+    id='Fuzzcmptest-v0',
+    entry_point='rlfuzz.envs:FuzzcmptestEnv',
+)
+
+
 # CImg
 def CImg_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
