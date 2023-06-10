@@ -13,7 +13,7 @@ import base64
 from posix_ipc import SharedMemory, Semaphore, ExistentialError
 from config import cmp_log_flag
 def afl_forkserver_path():
-    return "/home/zzr/AFLplusplus/afl-fuzz"
+    return "/home/zzr/ZZR_AFL/AFLplusplus/afl-fuzz"
 
 # 最大输入大小
 MAX_INPUT_SIZE = (2**24)  # 16M

@@ -211,18 +211,19 @@ class FuzzBaseEnv(gym.Env):
                                range(self.mutate_size + 64 + 32, self.mutate_size + 64 + 32 + 32,
                                      16)]  # np.argmax(action[self.mutate_size + 64 + 32:])
                 # force to single byte mutate
-                mutate = mutate%3
-                if mutate == 0:
-                    mutate = 3
-                elif mutate == 1:
-                    mutate = 4
-                else:
-                    mutate = self.mutator.methodNum
+                # mutate = mutate%3
+                # if mutate == 0:
+                #     mutate = 3
+                # elif mutate == 1:
+                #     mutate = 4
+                # else:
+                #     mutate = self.mutator.methodNum
 
                 if mutate == 3 or mutate == 4 or mutate == self.mutator.methodNum:
                     self.is_single_byte_mutate = True
                 else:
                     self.is_single_byte_mutate = False
+                    self.seed_but_not_initial = False
 
                 ll = [12, 8, 4, 0]
                 #这一步是把locs拼装起来，因为action是把他分成0xf,0xf,0xf,0xf了
@@ -314,6 +315,20 @@ class FuzzBaseEnv(gym.Env):
             # cal key byte
             mute_byte_index = block_start_loc + loc % new_block_length
             cur_byte = input_data[mute_byte_index]
+            if mute_byte_index >= len(input_data):
+                print("out of index")
+                print("mute_byte_index : "+mute_byte_index)
+                print("block_start_loc :"+block_start_loc)
+                print("new_block_length : "+new_block_length)
+                print("input : "+len(input_data))
+            if mute_byte_index > len(self.input_dict[self.initial_seed_cov[self.seed_index]]):
+                print("out of index :block_start_loc {0}, loc {1}, new_block_length {2}, mute_byte_index {3}"
+                      ", len(self.input_dict[self.initial_seed_cov[self.seed_index]]) {4}".
+                      format(block_start_loc,loc,new_block_length,mute_byte_index,
+                             len(self.input_dict[self.initial_seed_cov[self.seed_index]])))
+
+                print("mutate : "  + mutate)
+                print("")
             init_byte = self.input_dict[self.initial_seed_cov[self.seed_index]][mute_byte_index]
             cur_ket_byte_list = computeRate(self.initial_seed_cmp_map[self.seed_index],cmp_map,init_byte,cur_byte)
 
@@ -336,10 +351,13 @@ class FuzzBaseEnv(gym.Env):
         if self.updateVirginMap(self.coverageInfo.coverage_data):
             reward = self.coverageInfo.reward()
             self.change_seed_count = 0  # 更换种子计数清零
-            self.input_dict[tmpHash] = input_data
+            #self.input_dict[tmpHash] = input_data
+            if self.input_dict.get(tmpHash) is None:
+                self.input_dict[tmpHash] = input_data
             self.last_input_data = input_data
             if self.PeachFlag:
-                self.useful_sample_crack_info[tmpHash] = [self.seed_block, self.muteble_num]
+                if self.useful_sample_crack_info.get(tmpHash) is None:
+                    self.useful_sample_crack_info[tmpHash] = [copy.deepcopy(self.seed_block), self.muteble_num]
         else:  # 从记录中随机选择待变异样本
             self.change_seed_count += 1
             reward = self.coverageInfo.reward()
@@ -391,17 +409,17 @@ class FuzzBaseEnv(gym.Env):
         print(f"step_raw cost : {elapsed_time:.3f} ms")
         reward = info['reward']
         assert reward <= 1
-
-        if info['crash_info']:
-            # reward = 1 # 调整奖励
-            done = True
-            name = '{}-{}'.format(os.path.basename(self._target_path),
-                                  datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S.%f'))  # 精确到微秒防止冲突
-            print(' [+] Find {}'.format(name))
-            with open(os.path.join(self.POC_PATH, name), 'wb') as fp:
-                fp.write(info['input_data'])
-        else:
-            done = False
+        # diable crash
+        # if info['crash_info']:
+        #     # reward = 1 # 调整奖励
+        #     done = True
+        #     name = '{}-{}'.format(os.path.basename(self._target_path),
+        #                           datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S.%f'))  # 精确到微秒防止冲突
+        #     print(' [+] Find {}'.format(name))
+        #     with open(os.path.join(self.POC_PATH, name), 'wb') as fp:
+        #         fp.write(info['input_data'])
+        # else:
+        done = False
         curTime = time.time()
         if curTime-self.beginTime > self.recordIter*1800:
             self.recordIter  = self.recordIter+1

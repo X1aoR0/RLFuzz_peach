@@ -14,7 +14,7 @@ import base64
 from posix_ipc import SharedMemory, Semaphore, ExistentialError
 from ZZRFuzz import config
 def afl_forkserver_path():
-    return "/home/zzr/AFLplusplus/afl-fuzz"
+    return "/home/zzr/ZZR_AFL/AFLplusplus/afl-fuzz"
 
 # 最大输入大小
 MAX_INPUT_SIZE = (2**24)  # 16M
@@ -53,7 +53,7 @@ _next_client_id = 0
 
 def start_target_forkserver(command,env):
     global _process
-    _process = subprocess.Popen(command,env=env, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)
+    _process = subprocess.Popen(command,env=env, stdout=subprocess.PIPE, shell=True)
     while True:
         output = _process.stdout.readline()
         #output = _process.stderr.readline()
@@ -110,6 +110,8 @@ class ForkClient:
                             afl_forkserver_path(),
                             '-i',"/home/zzr/ZZRFuzz/in_afl",
                             '-o',"/home/zzr/ZZRFuzz/out_afl",
+                            '-t',
+                            '99999',
                             '-O',
                             '-r', self.randStr,
                             '-c',
@@ -118,7 +120,8 @@ class ForkClient:
                             target_path,
                         ]
                         cmd += args
-                        #cmd += ['@@']
+                        cmd += ['@@']
+                        # cmd += [">","afl_std.log"]
 
                         # 输出cmd
                         print(' '.join(cmd))

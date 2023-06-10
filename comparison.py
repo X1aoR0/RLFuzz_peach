@@ -13,9 +13,14 @@ import time
 import datetime
 import rlfuzz
 import argparse
+from tensorflow import keras
+from tensorflow.keras.layers import Input, Flatten, Dense, Concatenate, Activation
+from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras import backend as K
+import tensorflow as tf
 
 from keras.models import Sequential, Model
-from keras.layers import Dense, Activation, Flatten, Input, Concatenate, Lambda
+# from keras.layers import Dense, Activation, Flatten, Input, Concatenate, Lambda
 from keras.callbacks import TensorBoard, Callback
 from keras.optimizers import Adam
 from keras import backend as K
@@ -48,12 +53,17 @@ INITIAL_SEED_PATH = {
     'FuzzAC68U-v0': project_dir + r'/rlfuzz/mods/router-mod/AC68U/4.txt',
     'FuzzAC9-v0': project_dir + r'/home/real/AIfuzz/multimutatefuzz/rlfuzz/gym_fuzzing/gym_fuzz1ng/mods/router-mod/AC68U/host10.txt',
     'Fuzzgzip-v0': project_dir + r'/rlfuzz/mods/gzip-mod/seed',  # /1.ppt.gz',
-    'Fuzzlibpng-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/libpng-1.2.56/seeds/',
+    'Fuzzlibpng-v0': r'/home/zzr/fuzzer-test-suite/libpng-1.2.56/seeds',
     'FuzzPngquant-v0': project_dir + r'/rlfuzz/mods/pngquant-mod/pngquant-master/test/img/',
     'Fuzzguetzil-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
-    'Fuzzlibjpeg-v0': project_dir + r'/rlfuzz/mods/fuzzer-test-suite-mod/guetzli-2017-3-30/seeds',
+    'Fuzzlibjpeg-v0': r'/home/zzr/fuzzer-test-suite/libjpeg-turbo-07-2017/seeds',
     'FuzzCImg-v0': project_dir + r'/rlfuzz/mods/Cimg-mod/SEED',
-    'Fuzzcmptest-v0': '/home/zzr/ZZRFuzz/in_afl/'+'testnew_forcmp'
+    'Fuzzcmptest-v0': '/home/zzr/ZZRFuzz/in_afl/'+'testnew_forcmp',
+    'Fuzzlibxml2-v0':"/home/zzr/fuzzer-test-suite/libxml2-v2.9.2/SEED",
+    'Fuzzguetil-v0':"/home/zzr/fuzzer-test-suite/guetzli-2017-3-30/seeds",
+    "Fuzzlibarchieve-v0":"/home/zzr/fuzzer-test-suite/libarchive-2017-01-04/seeds",
+    "Fuzzfreetype2-v0":"/home/zzr/fuzzer-test-suite/freetype2-2017/BUILD/seeds",
+    "Fuzzharfbuzz-v0":"/home/zzr/fuzzer-test-suite/harfbuzz-1.3.2/BUILD/seeds"
 
 }
 
@@ -115,7 +125,7 @@ if __name__ == "__main__":
     parser.add_argument('--start_time', '-st', help='start time.')
     parser.add_argument('--use_seed', '-us', action='store_true', help='if use initial seed.')
     parser.add_argument('--activation', '-a', default='relu', help='activation function.')
-    parser.add_argument('--steps', default=10, help='all steps number.', type=int)
+    parser.add_argument('--steps', default=20000, help='all steps number.', type=int)
     parser.add_argument('--radio', default=0.1, help='warmup radio.', type=float)
     parser.add_argument('--peach', action='store_true', help='Use Peach')
     parser.add_argument('--pit', help='Pit File Path')
@@ -148,7 +158,8 @@ if __name__ == "__main__":
 
     # [e.id for e in gym.envs.registry.all()]
     if ENV_NAME in ['FuzzBase64-v0', 'FuzzMd5sum-v0', 'FuzzUniq-v0', 'FuzzWho-v0', 'FuzzPngquant-v0',
-                    'FuzzAC68U-v0', 'FuzzAC9-v0', 'Fuzzgzip-v0', 'Fuzzlibpng-v0', 'Fuzzguetzil-v0', 'Fuzzlibjpeg-v0', 'FuzzCImg-v0',"Fuzzcmptest-v0"] and METHOD in [
+                    'FuzzAC68U-v0', 'FuzzAC9-v0', 'Fuzzgzip-v0', 'Fuzzlibpng-v0', 'Fuzzguetzil-v0', 'Fuzzlibjpeg-v0', 'FuzzCImg-v0',"Fuzzcmptest-v0",
+                    "Fuzzlibxml2-v0","Fuzzguetil-v0","Fuzzlibarchieve-v0","Fuzzfreetype2-v0","Fuzzharfbuzz-v0"] and METHOD in [
                     "random", "ddpg", "dqn", "double-dqn", "duel-dqn"]:
         env = gym.make(ENV_NAME)
         #env.seed(5)  # 起点相同
@@ -196,6 +207,7 @@ if __name__ == "__main__":
             show_graghs(env, end - start, '{}-random-{}-{}'.format(ENV_NAME, ACTIVATION, WARMUP_STEPS),
                         history=history)
         # 采用DDPG方法
+          # 采用DDPG方法
         elif METHOD == "ddpg":
             actor_input = Input(shape=(1,) + env.observation_space.shape, name='actor_observation_input')
             f_actor_input = Flatten()(actor_input)
@@ -263,7 +275,7 @@ if __name__ == "__main__":
             ZZRFuzz.config.Stage_3 = True
             done_step = 10
             state = env.cur_state
-            while done_step > 0:
+            while True:
                 action = agent.forward(state)
                 next_state, reward, done, _ = env.step(action)
                 state = next_state

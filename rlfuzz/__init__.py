@@ -94,7 +94,7 @@ register(
 
 def libpng_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
-    return "/home/zzr/fuzzer-test-suite-master/libpng-1.2.56/build/libpng-afl"
+    return "/home/zzr/fuzzer-test-suite/libpng-1.2.56/build/libpng-coverage"
 
 
 register(
@@ -126,7 +126,8 @@ def libjpeg_target_path():
     # return os.path.join(
     #     package_directory, 'mods/fuzzer-test-suite-mod/programs/libjpeg-turbo-07-2017-afl',
     # )
-    return "/home/zzr/fuzzer-test-suite-master/libjpeg-turbo-07-2017/build/libjpeg.afl"
+    return "/home/zzr/fuzzer-test-suite/libjpeg-turbo-07-2017/build/jpeg-coverage"
+    #return "/home/zzr/RLFuzz_peach/teststderr"
 
 
 register(
@@ -149,7 +150,7 @@ register(
 
 def cmptest_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join("/home/zzr/AFLplusplus/test_cmp_log")
+    return os.path.join("/home/zzr/ZZR_AFL/AFLplusplus/test_cmp_log")
 
 
 register(
@@ -170,6 +171,58 @@ register(
     id='FuzzCImg-v0',
     entry_point='rlfuzz.envs:FuzzCImgEnv',
 )
+
+def libxml2_target_path():
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    return "/home/zzr/fuzzer-test-suite/libxml2-v2.9.2/BUILD/libxml2-noinstru"
+
+
+register(
+    id='Fuzzlibxml2-v0',
+    entry_point='rlfuzz.envs:Fuzzlibxml2Env',
+)
+
+def guetil_target_path():
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    return "/home/zzr/fuzzer-test-suite/guetzli-2017-3-30/guetil-noinstru"
+
+
+register(
+    id='Fuzzguetil-v0',
+    entry_point='rlfuzz.envs:FuzzguetilEnv',
+)
+
+def libarchieve_target_path():
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    return "/home/zzr/fuzzer-test-suite/libarchive-2017-01-04/libarchieve-noinstru"
+
+
+register(
+    id='Fuzzlibarchieve-v0',
+    entry_point='rlfuzz.envs:FuzzlibarchieveEnv',
+)
+
+def freetype2_target_path():
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    return "/home/zzr/fuzzer-test-suite/freetype2-2017/BUILD/freetype-instru"
+
+
+register(
+    id='Fuzzfreetype2-v0',
+    entry_point='rlfuzz.envs:Fuzzfreetype2Env',
+)
+
+def harfbuzz_target_path():
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    return "/home/zzr/fuzzer-test-suite/harfbuzz-1.3.2/BUILD/harbuzz-noinstru"
+
+
+register(
+    id='Fuzzharfbuzz-v0',
+    entry_point='rlfuzz.envs:FuzzharfbuzzEnv',
+)
+
+
 
 # user defined binary
 register(
