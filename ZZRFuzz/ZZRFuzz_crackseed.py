@@ -18,11 +18,8 @@ def crack_seed(cov_per_byte):
             cur_start = i
             cur_cov = cov_per_byte[i]
 
-<<<<<<< HEAD
     seed_block.append([cur_start,len(cov_per_byte)])
-=======
-    seed_block.append([cur_start,len(cov_per_byte)+1])
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
     mutate_block_index = []
     for i in range(len(seed_block)):
         mutate_block_index.append(i)
@@ -37,7 +34,6 @@ def mute_seed(in_seed_bytes, index):
 
 
 
-<<<<<<< HEAD
 
 def seedCrack(engine,seed_path):
     cov_per_byte = []
@@ -47,12 +43,7 @@ def seedCrack(engine,seed_path):
     init_crack_mode = 1
     #fix 1 bug
     #seed_path = "cov__1__390"
-=======
-def seedCrack(engine,seed_path):
-    with open("/tmp/cmp_log_config", "w") as cmp_log_config:
-        cmp_log_config.write("0")
-    init_crack_mode = 1
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
     with open(seed_path, "rb") as in_seed_fp:
         in_seed_bytes = in_seed_fp.read()
         # test one
@@ -60,10 +51,9 @@ def seedCrack(engine,seed_path):
         print(init_cov.transition_count())
 
         for i in range(len(in_seed_bytes)):
-<<<<<<< HEAD
+
             print("cur i:"+str(i))
-=======
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
             if i %100 == 0:
                 print("cur_index: "+str(i))
             mute_seed_bytes = copy.deepcopy(in_seed_bytes)
@@ -73,18 +63,17 @@ def seedCrack(engine,seed_path):
             start_time = time.perf_counter()
 
             cur_cov,cur_cmp_map = engine.run(mute_seed_bytes)
-<<<<<<< HEAD
+
             if cur_cov.transition_count() == 1:
                 with open("cov__1__"+str(i),"wb") as fp:
                     print("found 1 cov")
                     fp.write(mute_seed_bytes)
-=======
 
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
             end_time = time.perf_counter()
 
             elapsed_time = (end_time - start_time) * 1000
             print(f"AFL run cost : {elapsed_time:.3f} ms")
+
 
             cov_per_byte.append(cur_cov.transition_count())
             crash_per_byte.append(cur_cov.crashes)
@@ -94,11 +83,10 @@ def seedCrack(engine,seed_path):
 
         (seed_block,mutate_block_index) = crack_seed(cov_per_byte)
         print(seed_block)
-<<<<<<< HEAD
+
         seed_block = [[start_loc, end_loc - start_loc] for start_loc, end_loc in seed_block]
         print(seed_block)
-=======
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
         print(mutate_block_index)
     init_crack_mode = 1
     return (seed_block,mutate_block_index)

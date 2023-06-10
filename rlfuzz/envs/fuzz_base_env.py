@@ -211,7 +211,7 @@ class FuzzBaseEnv(gym.Env):
                                range(self.mutate_size + 64 + 32, self.mutate_size + 64 + 32 + 32,
                                      16)]  # np.argmax(action[self.mutate_size + 64 + 32:])
                 # force to single byte mutate
-<<<<<<< HEAD
+
                 # mutate = mutate%3
                 # if mutate == 0:
                 #     mutate = 3
@@ -219,24 +219,15 @@ class FuzzBaseEnv(gym.Env):
                 #     mutate = 4
                 # else:
                 #     mutate = self.mutator.methodNum
-=======
-                mutate = mutate%3
-                if mutate == 0:
-                    mutate = 3
-                elif mutate == 1:
-                    mutate = 4
-                else:
-                    mutate = self.mutator.methodNum
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
 
                 if mutate == 3 or mutate == 4 or mutate == self.mutator.methodNum:
                     self.is_single_byte_mutate = True
                 else:
                     self.is_single_byte_mutate = False
-<<<<<<< HEAD
+
                     self.seed_but_not_initial = False
-=======
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
 
                 ll = [12, 8, 4, 0]
                 #这一步是把locs拼装起来，因为action是把他分成0xf,0xf,0xf,0xf了
@@ -328,7 +319,7 @@ class FuzzBaseEnv(gym.Env):
             # cal key byte
             mute_byte_index = block_start_loc + loc % new_block_length
             cur_byte = input_data[mute_byte_index]
-<<<<<<< HEAD
+
             if mute_byte_index >= len(input_data):
                 print("out of index")
                 print("mute_byte_index : "+mute_byte_index)
@@ -343,8 +334,7 @@ class FuzzBaseEnv(gym.Env):
 
                 print("mutate : "  + mutate)
                 print("")
-=======
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
             init_byte = self.input_dict[self.initial_seed_cov[self.seed_index]][mute_byte_index]
             cur_ket_byte_list = computeRate(self.initial_seed_cmp_map[self.seed_index],cmp_map,init_byte,cur_byte)
 
@@ -425,7 +415,7 @@ class FuzzBaseEnv(gym.Env):
         print(f"step_raw cost : {elapsed_time:.3f} ms")
         reward = info['reward']
         assert reward <= 1
-<<<<<<< HEAD
+
         # diable crash
         # if info['crash_info']:
         #     # reward = 1 # 调整奖励
@@ -437,19 +427,7 @@ class FuzzBaseEnv(gym.Env):
         #         fp.write(info['input_data'])
         # else:
         done = False
-=======
 
-        if info['crash_info']:
-            # reward = 1 # 调整奖励
-            done = True
-            name = '{}-{}'.format(os.path.basename(self._target_path),
-                                  datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S.%f'))  # 精确到微秒防止冲突
-            print(' [+] Find {}'.format(name))
-            with open(os.path.join(self.POC_PATH, name), 'wb') as fp:
-                fp.write(info['input_data'])
-        else:
-            done = False
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
         curTime = time.time()
         if curTime-self.beginTime > self.recordIter*1800:
             self.recordIter  = self.recordIter+1

@@ -359,11 +359,9 @@ class FuzzcmptestEnv(FuzzBaseEnv):
 
 class FuzzlibPngEnv(FuzzBaseEnv):
     def __init__(self):
-<<<<<<< HEAD
+
         self._target_path = rlfuzz.libpng_target_path()
-=======
-        self._target_path = rlfuzz.pngquant_target_path()
->>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
+
         self._args = ['']
         self._set_out = []
         self._seed = [b'']  # 指定初始变异的文件
