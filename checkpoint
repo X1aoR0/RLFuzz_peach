@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 model_checkpoint_path: "ddpg_Fuzzlibpng-v0_weights_critic.h5f"
 all_model_checkpoint_paths: "ddpg_Fuzzlibpng-v0_weights_critic.h5f"
+=======
+model_checkpoint_path: "ddpg_Fuzzcmptest-v0_weights_critic.h5f"
+all_model_checkpoint_paths: "ddpg_Fuzzcmptest-v0_weights_critic.h5f"
+>>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518

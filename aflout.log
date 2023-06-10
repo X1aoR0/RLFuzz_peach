@@ -1,0 +1,696 @@
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 5
+[*] read2 cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 2
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 53
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 69
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 90
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 51
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 51
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 85
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 91
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 60
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 3
+[*] read2 cost 0
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 67
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 77
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 1
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 4
+[*] build pong cost 0
+[*] one iter cost 111
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 95
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 80
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 57
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 55
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 0
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 85
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 11
+[*] read2 cost 1
+[*] fuzz_run_target cost 12
+[*] common_fuzz_stuff cost 12
+[*] build pong cost 0
+[*] one iter cost 92
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 59
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 55
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 7
+[*] read2 cost 0
+[*] fuzz_run_target cost 7
+[*] common_fuzz_stuff cost 8
+[*] build pong cost 0
+[*] one iter cost 115
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 67
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 4
+[*] read2 cost 0
+[*] fuzz_run_target cost 4
+[*] common_fuzz_stuff cost 4
+[*] build pong cost 0
+[*] one iter cost 115
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 100
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 54
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 53
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 85
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 67
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 65
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 70
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 93
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 55
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 52
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 78
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 0
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 77
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 0
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 65
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 105
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 98
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 52
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 53
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 86
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 85
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 71
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 3
+[*] read2 cost 0
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 102
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 73
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 3
+[*] read2 cost 0
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 73
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 0
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 99
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 10
+[*] fuzz_run_target cost 12
+[*] common_fuzz_stuff cost 13
+[*] build pong cost 0
+[*] one iter cost 90
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 71
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 87
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 70
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 56
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 49
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 65
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 111
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 52
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 2
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 67
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 4
+[*] read2 cost 3
+[*] fuzz_run_target cost 7
+[*] common_fuzz_stuff cost 8
+[*] build pong cost 0
+[*] one iter cost 130
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 60
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 2
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 74
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 6
+[*] fuzz_run_target cost 8
+[*] common_fuzz_stuff cost 9
+[*] build pong cost 0
+[*] one iter cost 68
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 50
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 2
+[*] read write 1 cost 2
+[*] read2 cost 1
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 5
+[*] build pong cost 0
+[*] one iter cost 61
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 3
+[*] read2 cost 0
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 75
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 2
+[*] read2 cost 1
+[*] fuzz_run_target cost 3
+[*] common_fuzz_stuff cost 4
+[*] build pong cost 0
+[*] one iter cost 91
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 11
+[*] one iter cost 26674
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 2
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 640
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 2
+[*] read2 cost 0
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 15
+[*] one iter cost 563
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 12
+[*] one iter cost 3856
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 11
+[*] one iter cost 2451
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 13
+[*] one iter cost 2548
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 11
+[*] one iter cost 3058
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 11
+[*] one iter cost 2740
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 1
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 11
+[*] one iter cost 2634
+[*] cmp_log_flag 1
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 11
+[*] one iter cost 2474
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 2
+[*] build pong cost 0
+[*] one iter cost 15887
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 3
+[*] read write 1 cost 5
+[*] read2 cost 4
+[*] fuzz_run_target cost 9
+[*] common_fuzz_stuff cost 12
+[*] build pong cost 0
+[*] one iter cost 5415
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 5
+[*] read2 cost 0
+[*] fuzz_run_target cost 5
+[*] common_fuzz_stuff cost 5
+[*] build pong cost 0
+[*] one iter cost 42776
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 1
+[*] read2 cost 1
+[*] fuzz_run_target cost 2
+[*] common_fuzz_stuff cost 3
+[*] build pong cost 0
+[*] one iter cost 2872
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 1
+[*] read write 1 cost 1
+[*] read2 cost 3
+[*] fuzz_run_target cost 4
+[*] common_fuzz_stuff cost 5
+[*] build pong cost 0
+[*] one iter cost 1615
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 10
+[*] fuzz_run_target cost 10
+[*] common_fuzz_stuff cost 10
+[*] build pong cost 0
+[*] one iter cost 1422
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 3
+[*] read2 cost 6
+[*] fuzz_run_target cost 9
+[*] common_fuzz_stuff cost 9
+[*] build pong cost 0
+[*] one iter cost 1446
+[*] cmp_log_flag 0
+[*] write_to_testcase cost 0
+[*] read write 1 cost 0
+[*] read2 cost 1
+[*] fuzz_run_target cost 1
+[*] common_fuzz_stuff cost 1
+[*] build pong cost 0
+[*] one iter cost 1206

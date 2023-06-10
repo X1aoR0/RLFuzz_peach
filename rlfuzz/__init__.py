@@ -94,7 +94,11 @@ register(
 
 def libpng_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
+<<<<<<< HEAD
     return "/home/zzr/fuzzer-test-suite/libpng-1.2.56/build/libpng-coverage"
+=======
+    return "/home/zzr/fuzzer-test-suite-master/libpng-1.2.56/build/libpng-afl"
+>>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
 
 
 register(
@@ -126,8 +130,12 @@ def libjpeg_target_path():
     # return os.path.join(
     #     package_directory, 'mods/fuzzer-test-suite-mod/programs/libjpeg-turbo-07-2017-afl',
     # )
+<<<<<<< HEAD
     return "/home/zzr/fuzzer-test-suite/libjpeg-turbo-07-2017/build/jpeg-coverage"
     #return "/home/zzr/RLFuzz_peach/teststderr"
+=======
+    return "/home/zzr/fuzzer-test-suite-master/libjpeg-turbo-07-2017/build/libjpeg.afl"
+>>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
 
 
 register(
@@ -150,7 +158,11 @@ register(
 
 def cmptest_target_path():
     package_directory = os.path.dirname(os.path.abspath(__file__))
+<<<<<<< HEAD
     return os.path.join("/home/zzr/ZZR_AFL/AFLplusplus/test_cmp_log")
+=======
+    return os.path.join("/home/zzr/AFLplusplus/test_cmp_log")
+>>>>>>> 1ec6af844b3cd1daab4a151968b30c49f70ee518
 
 
 register(
